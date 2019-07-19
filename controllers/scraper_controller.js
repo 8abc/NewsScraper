@@ -1,39 +1,62 @@
-const express = require('express');
-const router = express.Router();
-const path = require('path');
+// scraping tools
+// const cheerio = require('cheerio');
+// const axios = require('axios');
+// const mongoose = require('mongoose');
 
-const axios = require('axios');
-const cheerio = require('cheerio');
+// mongoose.connect('mongodb://localhost/scraper', {useNewUrlParser: true});
 
-const Note = require('../models/Notes');
-const Article = require('../models/Article');
+// save the URL of our database and name of our collection
+// const databaseURL ='scraper';
+// const collections = ['articles'];
+// use mongojs to hook the database to db variable
+// const db = mongojs(databaseURL, collections);
+// db.on('error',(error)=>{
+//     console.log('Database Error: ', error);
+// });
+// // Routes
+// app.get('/',(req,res)=>{
+//     res.render('index');
+// });
+// app.get('all',(req,res)=>{
+//     db.articles.find({},(error,found)=>{
+//         if(error) {
+//             return error;
+//         }
+//         else {
+//             res.json(found);
+//         }
+//     });
+// });
+// const Note = require('../models/Notes');
+// const Article = require('../models/Article');
 
- router.get('/', function(req,res){
-    res.redirect('/articles');
- });
+// default route
+//  app.get('/',(req,res)=>{ res.render('index')});
 
- router.get('/scraper', (req,res)=>{
-    // A GET route for scraping 
-    app.get('/home',(req,res)=>{
-        // makes a require via axios for highsnobiety
-        axios.get('https://www.highsnobiety.com/').then(function(response){
-            // loads and saves html into cheerio
-            const $ = cheerio.load(response.data);
-            // saves the data that we'll scrape
-            let results = [];
-            // With cheerio, find each article-tag with the class of tease
-            // (i: iterator. element: the current element
-            $('.teaser_title').each(function(i, element){
-                // saves the text of the title 
-                let title = $(this).text();
-                let link = $(this).children().attr('href');
-                // make an object for the data we scraped and push it to the results array
-                results.push({
-                    title:title,
-                    link:link
-                });
-                console.log(results);
-            });
-        });
-    });
- });
+//  scrape articles route
+// console.log('\n------------------' + 
+//     '\nGrabbing every thread name and link' +
+//     '\nfrom hypebae.com: ' + 
+//     '\n------------------');
+// // scrape articles route
+// app.get('/api/search',(req,res)=>{
+//     axios.get('https://hypebae.com/').then(function(response){
+//         let $ = cheerio.load(response.data);
+//         let results = [];
+//             $('a.post-link').each(function(i,element) {
+//             // saves the text of the title 
+//             let title = $(element).text().trim();
+//             let link = $(element).attr('href');
+//             // let imageLink = $(element).find('a').find('img').attr('data-hb-lazy-load').split(",")[0];
+//             // make an object for the data we scraped and push it to the results array
+//             results.push({
+//                 title:title,
+//                 link:link
+//                 // link:imageLink
+//             });
+
+//         });
+//         console.log(results);
+//     });
+// });
+
