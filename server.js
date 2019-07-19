@@ -9,10 +9,14 @@ const axios = require('axios');
 
 // require all models
 const db = require('./models');
-const PORT = 3002;
+const PORT = process.env.PORT || 3002;
 
 // initializes express
 const app = express();
+// handlebars
+const exphbs = require('express-handlebars');
+app.engine('handlebars',exphbs({defaultLayout: 'main'}));
+app.set('view engine', 'handlebars');
 
 // use morgan logger for logging request
 app.use(logger('dev'));
@@ -23,7 +27,8 @@ app.use(express.json());
 app.use(express.static('public'));
 
 // conncet to the mongo db
-// mongoose.connect('mongodb://localhost/scraperdb', {})
+mongoose.connect('mongodb://localhost/scraperdb', {useNewUrlParser: true});
+
 
 console.log('\n------------------' + 
     '\nGraddbing every thread name and link' +
@@ -47,3 +52,4 @@ app.get('/scrape',(req,res)=>{
 app.listen(PORT, () => {
     console.log(`App running on port: ${PORT}`);
 });
+
