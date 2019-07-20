@@ -1,21 +1,9 @@
-<div class="jumbotron text-center">
-    <div class="container">
-        <h1 class="jumbotron-heading">News Scraper</h1>
-        <p class="lead text-muted">What's Trending</p>
-        <p>
-            <a href="#" class="btn btn-secondary my-2">New Articles</a>
-            <a href="#" class="btn btn-info">Saved Articles</a>
-        </p>
-    </div>
-</div>
-<div class="album py-5 bg-light">
-    <div class="container">
-        <div class="row">
+   <div class="row">
             <div class="col-md-4">
                 <div class="card mb-4 shadow-sm">
-                    {{#each Articles}}
+                    {{article.title}}
                     <div class="card-body">
-                        <h3>{{this.title}}</h3>
+                        <h3>{{body}}</h3>
                         <p class="card-text">
                             <div class="d-flex justify-content-between align-items-center">
                                 <div class="btn-group">
@@ -25,9 +13,6 @@
                             </div>
                         </p>
                     </div>
-                    {{/each}}
                 </div>
             </div>
         </div>
-    </div>
-</div>
