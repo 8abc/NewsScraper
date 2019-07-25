@@ -3,6 +3,7 @@ const express = require('express');
 const logger = require('morgan');
 const mongoose = require('mongoose');
 const path = require('path');
+const bodyParser = require("body-parser");
 
 // connection to models
 const Note = require("./models/Notes");
@@ -16,9 +17,11 @@ const axios = require('axios');
 const PORT = process.env.PORT || 3002;
 // initializes express
 const app = express();
+// sets up express router
+const router = express.Router();
 
 // Serve static content for the app from the "public" directory in the application directory.
-app.use(express.static("public"));
+app.use(express.static(__dirname + "/public"));
 app.use(express.static("views/images"));
 
 // Parse application body
@@ -30,11 +33,19 @@ const exphbs = require("express-handlebars");
 app.engine("handlebars", exphbs({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
 
-// connects to mongoose database
+// use bodyParser in our app
+app.use(bodyParser.urlencoded({
+  extended: false
+}));
+
+// have every request go through our router
+app.use(router);
+
+// If deployed, use deployed database otherwise use local scraper database
 const MONGODB_URI =
   process.env.MONGODB_URI || "mongodb://localhost/scraper";
 mongoose.connect(MONGODB_URI, { useNewUrlParser: true });
-
+// connects to mongoose database
 var db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error:"));
 db.once("open", function() {
@@ -69,22 +80,51 @@ app.get("/scrape", (req,res)=>{
               link:link
               // link:imageLink
           });
-
+          // Create a new Article using the results object built from scraping
+          db.Article.create(result)
+          .then(function(dbArticle){
+            // view the added results in the console
+            console.log(dbArticle);
+          })
+          .catch(function(err){
+            // if an error occurred, log it
+            console.log(err);
+          });
       });
-      console.log(results);
+      // console.log(results);
+      // Send a message to the client
+      res.send("Scrape Complete");
   });
 });
+// grab articles we scraped from the mongoDB
+// app.get("/articles", (req,res)=>{
+//   // grabs every doc in the Articles array
+//   Article.find(), function(err,doc){
+//     // log any errors
+//     if (err) {
+//       console.log(err);
+//     }
+//     // or send the doc to the browser as a json object
+//     else {
+//       res.json(doc);
+//     }
+//   }
+// }); 
 
-app.get("/articles", (req,res)=>{
-  Article.find().sort({_id:-1}).exec(function(err,doc){
-    if(err) {
-      console.log(err);
-    } else {
-      let articles = {article: doc};
-      res.render("index",articles)
-    }
-  });
-});
+// saved articles
+
+// delete article from database
+
+// Add note to an article
+
+// get back all notes for a specific article
+
+// delete note from article
+
+// clear all articles from databse
+
+
+
 // starts the server
 app.listen(PORT, () => {
     console.log(`App running on port: ${PORT}`);
