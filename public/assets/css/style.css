@@ -1,3 +1,34 @@
-* {
-    background-color: yellow;
+/* html {
+    position: relative;
+    min-height: 100%;
+} */
+
+body {
+    margin-bottom: 80px;
+    font-family: "monospace"
+    /* background-image: () */
+}
+
+/* test */
+.scrape-new {
+    cursor: pointer;
+}
+
+.jumbotron {
+    /* position: relative; */
+    width: 100%;
+    height: 500px;
+    padding: 60px;
+    box-shadow: 10px 5px 20px 2px lightslategray;
+}
+
+.overlay {
+    /* background: linear-gradient(#333, black); */
+    position: relative;
+    opacity: 0.5;
+    z-index: auto;
+    /* top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0; */
 }
